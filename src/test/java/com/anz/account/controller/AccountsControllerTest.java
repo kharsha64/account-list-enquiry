@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -72,7 +71,8 @@ class AccountsControllerTest {
     @Test
     void updateAccount() throws Exception {
         AccountDto dto = AccountDto.builder().accountBalance(new BigDecimal(0)).accountName("ABC").accountNumber("ABC123").accountType(AccountTypeEnum.Savings).currency(CurrencyEnum.AUD).build();
-        doNothing().when(service).updateAccount(Mockito.anyString(), Mockito.any());
+        //doNothing().when(service).updateAccount(Mockito.anyString(), Mockito.any());
+        when(service.updateAccount(Mockito.anyString(), Mockito.any())).thenReturn(dto);
         mockMvc.perform(put("/v1/api/account/{accountNumber}", "ABC123")
                     .content(asJsonString(dto))
                     .contentType(MediaType.APPLICATION_JSON))
